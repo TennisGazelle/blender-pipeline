@@ -2,15 +2,26 @@ name: Full Render
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # allows for manual triggering from github
+  workflow_dispatch:
 
 jobs:
   full-render:
-    runs-on: ikester/blender
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Create Raw Render from Scene
-        run: make scene_render
+        run: |
+          echo "Creating inital buffer frames"
+          make scene_render
+
       - name: Create Composite Render
-        run: make edit_render
+        run: |
+          echo "Creating composited avi"
+          make edit_render
