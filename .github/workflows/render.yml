@@ -21,7 +21,19 @@ jobs:
           echo "Creating inital buffer frames"
           make scene_render
 
+      - name: Upload Buffer Images as Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: scene-buffer-files
+          path: imgs/buffer/scene_frame*.png
+
       - name: Create Composite Render
         run: |
           echo "Creating composited avi"
           make edit_render
+
+      - name: Upload Completed Movie
+        uses: actions/upload-artifact@v1
+        with:
+          name: output-render-file
+          path: imgs/out/*
