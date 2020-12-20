@@ -1,8 +1,6 @@
-name: Full Render
+name: PR Render
 
-on:
-  push:
-    branches: [ main ]
+on: [ pull_request ]
 
   # allows for manual triggering from github
   workflow_dispatch:
@@ -24,22 +22,3 @@ jobs:
         with:
           name: scene-buffer-files
           path: imgs/buffer/
-
-  Final-Render:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Create Composite Render
-        run: |
-          echo "Creating composited avi"
-          # make edit_render
-          scripts/render.py --stage=edit
-
-      - name: Upload Completed Movie
-        uses: actions/upload-artifact@v1
-        with:
-          name: output-render-file
-          path: |
-            imgs/out/
-            imgs/buffer/
