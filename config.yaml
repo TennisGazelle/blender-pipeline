@@ -1,4 +1,4 @@
-scene_buffer_frames: 1
+scene_buffer_frames: 1-90
 edit_buffer_frames: 1-90
 
 scene_render_force_update: false
