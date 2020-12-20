@@ -29,8 +29,8 @@ jobs:
       - name: Create Composite Render
         run: |
           echo "Creating composited avi"
-          make edit_render
-          # scripts/render.py --stage=scene
+          # make edit_render
+          scripts/render.py --stage=edit
 
       - name: Upload Completed Movie
         uses: actions/upload-artifact@v1
