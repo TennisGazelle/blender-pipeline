@@ -1,9 +1,11 @@
 name: PR Render
 
-on: [ pull_request ]
-
-  # allows for manual triggering from github
+on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - 'blender/**'
+
 
 jobs:
   Scene-Render:
