@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: scene-buffer-files
-          path: imgs/buffer/scene_frame*.png
+          path: imgs/buffer/
 
       - name: Create Composite Render
         run: |
@@ -36,4 +36,6 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: output-render-file
-          path: imgs/out/*
+          path: |
+            imgs/out/
+            imgs/buffer/
