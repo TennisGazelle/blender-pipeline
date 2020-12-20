@@ -19,7 +19,8 @@ jobs:
       - name: Create Raw Render from Scene
         run: |
           echo "Creating inital buffer frames"
-          make scene_render
+          # make scene_render
+          scripts/scene_render.py
 
       - name: Upload Buffer Images as Artifacts
         uses: actions/upload-artifact@v1
