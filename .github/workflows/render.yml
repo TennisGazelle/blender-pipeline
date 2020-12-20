@@ -3,16 +3,13 @@ name: Full Render
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
   # allows for manual triggering from github
   workflow_dispatch:
 
 jobs:
-  full-render:
+  Scene-Render:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -20,7 +17,7 @@ jobs:
         run: |
           echo "Creating inital buffer frames"
           # make scene_render
-          scripts/scene_render.py
+          scripts/render.py --stage=scene
 
       - name: Upload Buffer Images as Artifacts
         uses: actions/upload-artifact@v1
@@ -28,10 +25,16 @@ jobs:
           name: scene-buffer-files
           path: imgs/buffer/
 
+  Final-Render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
       - name: Create Composite Render
         run: |
           echo "Creating composited avi"
-          make edit_render
+          # make edit_render
+          scripts/render.py --stage=edit
 
       - name: Upload Completed Movie
         uses: actions/upload-artifact@v1

@@ -1,3 +1,5 @@
-scene_buffer_frames: 1,2,3,4,7-10
+scene_buffer_frames: 1-90
 edit_buffer_frames: 1-90
 
+scene_render_force_update: false
+edit_render_force_update: false
