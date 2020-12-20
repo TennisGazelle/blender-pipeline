@@ -26,6 +26,7 @@ jobs:
           path: imgs/buffer/
 
   Final-Render:
+    needs: Scene-Render
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
