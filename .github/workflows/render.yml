@@ -3,8 +3,6 @@ name: Full Render
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
   # allows for manual triggering from github
   workflow_dispatch:
