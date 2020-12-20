@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "Creating inital buffer frames"
           # make scene_render
-          scripts/scene_render.py
+          scripts/render.py --stage=scene
 
       - name: Upload Buffer Images as Artifacts
         uses: actions/upload-artifact@v1
@@ -32,6 +32,7 @@ jobs:
         run: |
           echo "Creating composited avi"
           make edit_render
+          # scripts/render.py --stage=scene
 
       - name: Upload Completed Movie
         uses: actions/upload-artifact@v1
