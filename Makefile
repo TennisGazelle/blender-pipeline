@@ -1,10 +1,28 @@
 all: scene_render edit_render
 
 scene_render: blender/scene.blend
-	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/imgs:/imgs ikester/blender blender/scene.blend -o imgs/buffer/scene_frame_#### -a -E CYCLES -t 8
+	# docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/imgs:/imgs ikester/blender blender/scene.blend -o imgs/buffer/scene_frame_#### -a -E CYCLES -t 8
+	python3 scripts/render.py --stage SCENE
 
 edit_render: blender/edit.blend imgs/buffer/scene_frame_0001.png imgs/buffer/scene_frame_0090.png
-	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/imgs:/imgs ikester/blender blender/edit.blend -o imgs/buffer/edit_render -a -F AVIRAW
+	#docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/imgs:/imgs ikester/blender blender/edit.blend -o imgs/buffer/edit_render -a -F AVIRAW
+	python3 scripts/render.py --stage EDIT
+
+get_paths:
+	blender --background blender/scene.blend --python scripts/get_path.py
+	blender --background blender/edit.blend --python scripts/get_path.py 
+
+set_paths:
+	blender --background blender/scene.blend --python scripts/set_path.py
+	blender --background blender/edit.blend --python scripts/set_path.py 
+
+get_paths_mac:
+	/Applications/Blender.app/Contents/MacOS/Blender --background blender/scene.blend --python scripts/get_path.py 
+	/Applications/Blender.app/Contents/MacOS/Blender --background blender/edit.blend --python scripts/get_path.py 
+
+set_paths_mac:
+	/Applications/Blender.app/Contents/MacOS/Blender --background blender/scene.blend --python scripts/set_path.py
+	/Applications/Blender.app/Contents/MacOS/Blender --background blender/edit.blend --python scripts/set_path.py 
 
 clean:
 	rm -rf out/

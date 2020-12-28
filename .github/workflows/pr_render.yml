@@ -1,6 +1,7 @@
 name: PR Render
 
 on:
+  # allows for manual triggering from github
   workflow_dispatch:
   pull_request:
     paths:
@@ -17,6 +18,7 @@ jobs:
         run: |
           echo "Creating inital buffer frames"
           # make scene_render
+          make set_paths
           scripts/render.py --stage=scene
 
       - name: Upload Buffer Images as Artifacts
