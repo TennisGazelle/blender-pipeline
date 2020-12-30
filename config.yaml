@@ -19,8 +19,10 @@ edit:
 
 file_output_format: '{bfile}_{stage}_####'
 docker:
-  cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -E {engine} -F {format} -t 8 {flags}
-  default:
+  #render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -E {engine} -F {format} -t 8 {flags}
+  render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs blender-pipeline:latest blender/{blend_file} -o {output_location} -E {engine} -F {format} -t 8 {flags}
+  render_default:
     engine: CYCLES
     format: PNG
     output_location: imgs/buffer/
+  python_cmd: docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml blender-pipeline:latest blender/scene.blend --python scripts/get_path.py

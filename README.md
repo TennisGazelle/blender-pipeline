@@ -1,4 +1,4 @@
-# blender-pipeline
+# blender-<as a>-pipeline (BAP)
 
 Template pipeline for individual, small-team sized Blender project development.
 
@@ -9,7 +9,7 @@ The Stages in rendering are tightly coupled with the animator's workflow in mind
 
 # Quick start
 
-## Prerequsite
+## Prerequisites:
 Needed to be installed/configured on your local machine.
  - python3
     - pip install pyyaml
@@ -34,6 +34,11 @@ scene:
 In this project, Stage `scene` refers to the blend file that contains the models/textures to be build, and stage `edit` includes the blender file with post processing.
 
 ## Render
+0. Set up the Docker image locally (this will take some time).
+```bash
+docker build -t blender-pipeline scripts/
+```
+
 1. If you just downloaded this project, first set the paths of your working directory.
 
 ```bash
@@ -52,3 +57,12 @@ make scene_render
 ```bash
 make edit_render
 ```
+
+Raw, individual frames will populate in imgs/buffer/ without post processing.
+A video file will be found in imgs/out/ with post processing.
+
+## Acknowledgements
+ - [**ikester/blender**](https://hub.docker.com/r/ikester/blender) - Dockerfile that has Blender in it
+ - [**dolphinkiss/blender-python-docker**](https://github.com/dolphinkiss/blender-python-docker/blob/master/Dockerfile) - Similar to above; Dolphin Kiss's implementation is also simple and easy to understand.
+ - [**Raymond Lo**](https://dis.co/blog/build-a-blender-docker-container-for-distributing-rendering/) - Article helping detail how to write one's own blender-based dockerfile and how to get dependencies in it.
+ - [**Amber Wilkie - FreeCodeCamp**](https://www.freecodecamp.org/news/how-to-use-github-actions-to-call-webhooks/) - Calling webhooks from Github Actions.

@@ -28,7 +28,6 @@ def parse_frames(frames_as_string):
 
 def render_frames(frames, render_cmd):
     for frame in frames:
-
         cmd = render_cmd + " -f {0}".format(frame)
         print(cmd.split())
 
@@ -70,7 +69,7 @@ config[stage]['buffer_frames'] = parse_frames(config[stage]['buffer_frames'])
 frames = config[stage]['buffer_frames']
 
 # docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -a -E {engine} -F {format} -t 8
-render_cmd = config['docker']['cmd'].format(
+render_cmd = config['docker']['render_cmd'].format(
     cwd             = os.getcwd(),
     blend_file      = config[stage]['blend_file'],
     output_location = config[stage]['render_output'],
