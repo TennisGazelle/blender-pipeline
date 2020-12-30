@@ -9,10 +9,19 @@ on:
 
 
 jobs:
+  Docker-Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Building Docker image
+        uses: actions/checkout@v2
+        run: docker build -t blender-pipeline:latest scripts/
+    
+
   Scene-Render:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checking out branch
+        uses: actions/checkout@v2
 
       - name: Create Raw Render from Scene
         run: |
