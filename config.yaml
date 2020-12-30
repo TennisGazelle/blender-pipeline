@@ -12,7 +12,7 @@ edit:
   buffer_frames: 1-9
   force_update: false
   render_output: 'imgs/out/'
-  engine: CYCLES # todo: figure out how to do EEVEE
+  engine: CYCLES
   blend_file: edit.blend
   render_format: AVIRAW
   docker_flags: '-a'
@@ -21,8 +21,9 @@ file_output_format: '{bfile}_{stage}_####'
 docker:
   #render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -E {engine} -F {format} -t 8 {flags}
   render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs blender-pipeline:latest blender/{blend_file} -o {output_location} -E {engine} -F {format} -t 8 {flags}
-  render_default:
+  python_cmd: docker run --rm -v ${cwd}/blender/:/blender/ -v ${cwd}/scripts:/scripts -v ${cwd}/config.yaml:/config.yaml blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
+  var_defaults:
     engine: CYCLES
     format: PNG
     output_location: imgs/buffer/
-  python_cmd: docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
+

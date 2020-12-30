@@ -9,21 +9,10 @@ edit_render: blender/edit.blend imgs/buffer/scene_frame_0001.png imgs/buffer/sce
 	python3 scripts/render.py --stage EDIT
 
 get_paths:
-	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
-	# blender --background blender/scene.blend --python scripts/get_path.py
-	# blender --background blender/edit.blend --python scripts/get_path.py 
+	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
 
 set_paths:
-	blender --background blender/scene.blend --python scripts/set_path.py
-	blender --background blender/edit.blend --python scripts/set_path.py 
-
-get_paths_mac:
-	/Applications/Blender.app/Contents/MacOS/Blender --background blender/scene.blend --python scripts/get_path.py 
-	/Applications/Blender.app/Contents/MacOS/Blender --background blender/edit.blend --python scripts/get_path.py 
-
-set_paths_mac:
-	/Applications/Blender.app/Contents/MacOS/Blender --background blender/scene.blend --python scripts/set_path.py
-	/Applications/Blender.app/Contents/MacOS/Blender --background blender/edit.blend --python scripts/set_path.py 
+	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml blender-pipeline:latest blender/scene.blend --python scripts/set_path.py
 
 clean:
 	rm -rf out/

@@ -16,21 +16,25 @@ def get_config_for_file():
 
 
 with open('config.yaml', 'r') as config_file:
-    config = yaml.load(config_file)
-
+    config = yaml.load(config_file, Loader=yaml.FullLoader)
 
 
 scene = bpy.context.scene
 file_config, stage = get_config_for_file()
 
-print('config: ', json.dumps(file_config, indent=3))
+print('stage specific config: ', json.dumps(file_config, indent=3))
 print('Initial Output Filepath: {}'.format(scene.render.filepath))
 
 # change the filepath to the new format
-scene.render.filepath = config['file_output_format'].format(
+file_config['render_output'] = file_config['render_output'].rstrip('/')
+config['file_output_format'] = config['file_output_format'].lstrip('/').format(
         bfile=bpy.data.filepath.rpartition('.')[0],
         stage=stage
         )
+scene.render.filepath = file_config['render_output'] + '/' + config['file_output_format']
+
+print('config: ', json.dumps(config, indent=3))
+
 print('Ending Output Filepath: {}'.format(scene.render.filepath))
 
 #save the file and quit
