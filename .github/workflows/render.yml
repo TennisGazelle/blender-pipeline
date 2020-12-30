@@ -35,10 +35,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Building Docker image
+        run: docker build -t blender-pipeline:latest scripts/
+
       - name: Create Composite Render
         run: |
           echo "Creating composited avi"
-          # make edit_render
           make set_paths
           scripts/render.py --stage=edit
 
