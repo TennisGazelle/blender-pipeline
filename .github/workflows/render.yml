@@ -1,11 +1,11 @@
 name: Full Render
 
 on:
+  # allows for manual triggering from github
+  workflow_dispatch:
   push:
     branches: [ main ]
 
-  # allows for manual triggering from github
-  workflow_dispatch:
 
 jobs:
   Scene-Render:
@@ -14,10 +14,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Building Docker image
+        run: docker build -t blender-pipeline:latest scripts/
+
       - name: Create Raw Render from Scene
         run: |
           echo "Creating inital buffer frames"
           # make scene_render
+          make set_paths
           scripts/render.py --stage=scene
 
       - name: Upload Buffer Images as Artifacts
@@ -33,10 +37,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Building Docker image
+        run: docker build -t blender-pipeline:latest scripts/
+
       - name: Create Composite Render
         run: |
           echo "Creating composited avi"
-          # make edit_render
+          make set_paths
           scripts/render.py --stage=edit
 
       - name: Upload Completed Movie
