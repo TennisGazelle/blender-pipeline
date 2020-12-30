@@ -7,7 +7,7 @@ import json
 
 
 with open('config.yaml', 'r') as config_file:
-    config = yaml.load(config_file)
+    config = yaml.load(config_file)#, Loader=yaml.FullLoader) # fix this
 
 
 def parse_frames(frames_as_string):
@@ -28,7 +28,6 @@ def parse_frames(frames_as_string):
 
 def render_frames(frames, render_cmd):
     for frame in frames:
-
         cmd = render_cmd + " -f {0}".format(frame)
         print(cmd.split())
 
@@ -56,22 +55,28 @@ parser.add_argument('--stage', metavar='s', type=str, nargs='?',
                     help='which type of render to create')
 
 args = parser.parse_args()
+stage = args.stage.lower()
 
-print(args.stage)
-
-
-config['scene_buffer_frames'] = parse_frames(config['scene_buffer_frames'])
-config['edit_buffer_frames'] = parse_frames(config['edit_buffer_frames'])
-print(config)
-
-if args.stage == 'scene':
-    frames = config['scene_buffer_frames']
-    render_cmd = "docker run --rm -v {0}/blender/:/blender/ -v {0}/imgs:/imgs ikester/blender blender/scene.blend -o imgs/buffer/scene_frame_#### -E CYCLES -t 8".format(os.getcwd())
-elif args.stage == 'edit':
-    frames = config['edit_buffer_frames']
-    render_cmd = "docker run --rm -v {0}/blender/:/blender/ -v {0}/imgs:/imgs ikester/blender blender/edit.blend -o imgs/buffer/edit_render -a -F AVIRAW".format(os.getcwd())
+if args.stage.lower() not in config.keys():
+    print('unable to resolve blender render type: ' + str(args.stage))
+    exit(0)
 else:
-    raise ValidationError('unable to resolve blender render type: ' + args.stage)
+    print('executing render for stage {}'.format(stage))
+    print('using config: ')
+    print(json.dumps(config, indent=3))
 
+config[stage]['buffer_frames'] = parse_frames(config[stage]['buffer_frames'])
+frames = config[stage]['buffer_frames']
 
+# docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -a -E {engine} -F {format} -t 8
+render_cmd = config['docker']['render_cmd'].format(
+    cwd             = os.getcwd(),
+    blend_file      = config[stage]['blend_file'],
+    output_location = config[stage]['render_output'],
+    engine          = config[stage]['engine'],
+    format          = config[stage]['render_format'],
+    flags           = config[stage]['docker_flags']
+)
+
+print('running cmd: ', render_cmd)
 render_frames(frames, render_cmd)
