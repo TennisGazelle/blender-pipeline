@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Building Docker image
+        run: docker build -t blender-pipeline:latest scripts/
+
       - name: Create Raw Render from Scene
         run: |
           echo "Creating inital buffer frames"
