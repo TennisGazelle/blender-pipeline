@@ -45,6 +45,20 @@ def render_frames(frames, render_cmd):
                     print('RETURN CODE: ', return_code)
                     break
 
+def render_animation(render_cmd):
+    print(render_cmd.split())
+
+    process = subprocess.Popen(render_cmd.split(), stdout=subprocess.PIPE)
+
+    while True:
+        output = process.stdout.readline()
+        line = output.strip().decode()
+        print(line)
+
+        return_code = process.poll()
+        if return_code is not None:
+            print('RETURN CODE: ', return_code)
+            break
 
 ## start here:
 
@@ -67,6 +81,7 @@ else:
 
 config[stage]['buffer_frames'] = parse_frames(config[stage]['buffer_frames'])
 frames = config[stage]['buffer_frames']
+# todo: if config[stage]['force_update'] is off, eliminate frames that already exist from being rerendered
 
 # docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -a -E {engine} -F {format} -t 8
 render_cmd = config['docker']['render_cmd'].format(
@@ -79,4 +94,7 @@ render_cmd = config['docker']['render_cmd'].format(
 )
 
 print('running cmd: ', render_cmd)
-render_frames(frames, render_cmd)
+if '-a' in render_cmd:
+    render_animation(render_cmd)
+else:
+    render_frames(frames, render_cmd)

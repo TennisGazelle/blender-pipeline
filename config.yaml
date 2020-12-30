@@ -1,6 +1,6 @@
 
 scene:
-  buffer_frames: 1-9
+  buffer_frames: 1-90
   force_update: false
   render_output: 'imgs/buffer/'
   engine: CYCLES # todo: figure out how to do EEVEE
@@ -9,7 +9,7 @@ scene:
   docker_flags: ''
 
 edit:
-  buffer_frames: 1-9
+  buffer_frames: 1-90
   force_update: false
   render_output: 'imgs/out/'
   engine: CYCLES

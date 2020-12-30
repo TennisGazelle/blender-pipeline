@@ -1,4 +1,4 @@
-# blender-< as a >-pipeline (BAAP)
+# blender-as-a-pipeline (BAAP)
 
 Template pipeline for individual, small-team sized Blender project development.
 
