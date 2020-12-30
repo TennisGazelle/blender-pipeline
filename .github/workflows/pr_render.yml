@@ -12,16 +12,17 @@ jobs:
   Docker-Build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+
       - name: Building Docker image
-        uses: actions/checkout@v2
         run: docker build -t blender-pipeline:latest scripts/
     
 
   Scene-Render:
+    needs: Docker-Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checking out branch
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Create Raw Render from Scene
         run: |
