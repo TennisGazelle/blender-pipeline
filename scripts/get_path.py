@@ -16,7 +16,7 @@ def get_config_for_file():
 
 
 with open('config.yaml', 'r') as config_file:
-    config = yaml.load(config_file, Loader=yaml.FullLoader)
+    config = yaml.load(config_file)#, Loader=yaml.FullLoader) # fix this
 
 scene = bpy.context.scene
 file_config, stage = get_config_for_file()

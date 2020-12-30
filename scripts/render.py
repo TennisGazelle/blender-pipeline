@@ -7,7 +7,7 @@ import json
 
 
 with open('config.yaml', 'r') as config_file:
-    config = yaml.load(config_file, Loader=yaml.FullLoader)
+    config = yaml.load(config_file)#, Loader=yaml.FullLoader) # fix this
 
 
 def parse_frames(frames_as_string):
