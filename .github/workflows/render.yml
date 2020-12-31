@@ -52,6 +52,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: output-render-file
-          path: |
-            imgs/out/
-            imgs/buffer/
+          path: imgs/out/
