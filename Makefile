@@ -1,5 +1,8 @@
 all: scene_render edit_render
 
+cool_scene_render: blender/cool_scene.blend
+	python3 scripts/render.py --stage cool_scene
+
 scene_render: blender/scene.blend
 	python3 scripts/render.py --stage SCENE
 

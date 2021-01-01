@@ -15,7 +15,16 @@ edit:
   engine: CYCLES
   blend_file: edit.blend
   render_format: AVIRAW
-  docker_flags: '-a'
+  docker_flags: '-a' # include this to render as a video
+
+cool_scene:
+  buffer_frames: 1-90
+  force_update: false
+  render_output: 'imgs/buffer/'
+  engine: CYCLES # todo: figure out how to do EEVEE
+  blend_file: cool_scene.blend
+  render_format: PNG
+  docker_flags: ''
 
 file_output_format: '{bfile}_{stage}_####'
 docker:
