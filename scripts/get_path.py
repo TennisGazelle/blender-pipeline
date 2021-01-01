@@ -14,7 +14,6 @@ def get_config_for_file():
     
     return None
 
-
 with open('config.yaml', 'r') as config_file:
     config = yaml.load(config_file)#, Loader=yaml.FullLoader) # fix this
 

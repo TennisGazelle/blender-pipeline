@@ -38,7 +38,7 @@ def render_frames(frames, render_cmd):
                 output = process.stdout.readline()
                 line = output.strip().decode()
                 print(line)
-                f.write(line)
+                f.write(line + '\n')
 
                 return_code = process.poll()
                 if return_code is not None:
