@@ -17,11 +17,18 @@ jobs:
       - name: Building Docker image
         run: docker build -t blender-pipeline:latest scripts/
 
-      - name: Create Raw Render from Scene
+      - name: Set the new relative paths
+        run make set_paths
+
+      - name: Create Raw (simple) Render from Scene
         run: |
           echo "Creating inital buffer frames"
-          make set_paths
           make scene_render
+
+      - name: Create Raw (cool) Render from Scene
+        run: |
+          echo "Creating inital buffer frames"
+          make cool_render
 
       - name: Upload Buffer Images as Artifacts
         uses: actions/upload-artifact@v1
