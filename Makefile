@@ -1,4 +1,4 @@
-all: scene_render edit_render
+all: set_paths scene_render edit_render
 
 cool_scene_render: blender/cool_scene.blend
 	python3 scripts/render.py --stage cool_scene
