@@ -14,11 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Building Docker image
-        run: docker build -t blender-pipeline:latest scripts/
-
       - name: Set the new relative paths
-        run make set_paths
+        run: make set_paths
 
       - name: Create Raw (simple) Render from Scene
         run: |
@@ -33,5 +30,5 @@ jobs:
       - name: Upload Buffer Images as Artifacts
         uses: actions/upload-artifact@v1
         with:
-          name: scene-buffer-files
+          name: buffer
           path: imgs/buffer/

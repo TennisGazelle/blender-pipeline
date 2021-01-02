@@ -90,7 +90,7 @@ render_cmd = config['docker']['render_cmd'].format(
     output_location = config[stage]['render_output'],
     engine          = config[stage]['engine'],
     format          = config[stage]['render_format'],
-    flags           = config[stage]['docker_flags']
+    flags           = config[stage]['blender_flags']
 )
 
 print('running cmd: ', render_cmd)
