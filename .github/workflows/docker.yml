@@ -1,8 +1,11 @@
 name: Docker Image Publishing
 
 on:
+  # allows for manual triggering from github
+  workflow_dispatch:
   push:
     branches: [ main ]
+    paths:
       - 'scripts/Dockerfile'
 
 jobs:
