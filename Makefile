@@ -1,4 +1,7 @@
-all: scene_render edit_render
+all: set_paths scene_render edit_render
+
+cool_scene_render: blender/cool_scene.blend
+	python3 scripts/render.py --stage cool_scene
 
 scene_render: blender/scene.blend
 	python3 scripts/render.py --stage SCENE
@@ -7,12 +10,14 @@ edit_render: blender/edit.blend imgs/buffer/scene_scene_0001.png imgs/buffer/sce
 	python3 scripts/render.py --stage EDIT
 
 get_paths:
-	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
-	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml blender-pipeline:latest blender/edit.blend --python scripts/get_path.py
+	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/cool_scene.blend --python scripts/get_path.py
+	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
+	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/edit.blend --python scripts/get_path.py
 
 set_paths:
-	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml blender-pipeline:latest blender/scene.blend --python scripts/set_path.py
-	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml blender-pipeline:latest blender/edit.blend --python scripts/set_path.py
+	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/cool_scene.blend --python scripts/set_path.py
+	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/scene.blend --python scripts/set_path.py
+	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/edit.blend --python scripts/set_path.py
 
 clean:
 	rm -rf out/

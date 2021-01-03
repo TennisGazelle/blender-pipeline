@@ -38,7 +38,7 @@ def render_frames(frames, render_cmd):
                 output = process.stdout.readline()
                 line = output.strip().decode()
                 print(line)
-                f.write(line)
+                f.write(line + '\n')
 
                 return_code = process.poll()
                 if return_code is not None:
@@ -90,7 +90,7 @@ render_cmd = config['docker']['render_cmd'].format(
     output_location = config[stage]['render_output'],
     engine          = config[stage]['engine'],
     format          = config[stage]['render_format'],
-    flags           = config[stage]['docker_flags']
+    flags           = config[stage]['blender_flags']
 )
 
 print('running cmd: ', render_cmd)
