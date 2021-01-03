@@ -27,7 +27,7 @@ clean_buffers:
 
 docker_build_test:
 	echo 'build dockerfile'
-	docker build -t blender-pipeline -f scripts/Dockerfile.test scripts/
+	docker build -t blender-pipeline scripts/
 	echo 'see if it works with the old frames and whatnot'
 	python3 scripts/render.py --stage SCENE
 	echo 'if that works, try with the other blender files with yaml'

@@ -82,3 +82,5 @@ A video file will be found in imgs/out/ with post processing.
     - [**Pip for Blender's Installed Python**](https://blender.stackexchange.com/questions/56011/how-to-install-pip-for-blenders-bundled-python)
 
 # Links I want to use
+ - https://towardsdatascience.com/how-to-properly-use-the-gpu-within-a-docker-container-4c699c78c6d1
+ 

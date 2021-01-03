@@ -26,7 +26,6 @@ jobs:
       - name: Create Raw Render from Scene
         run: |
           echo "Creating inital buffer frames"
-          make set_paths
           make scene_render
 
       - name: Upload Buffer Images as Artifacts
@@ -50,7 +49,6 @@ jobs:
       - name: Create Composite Render
         run: |
           echo "Creating composited avi"
-          make set_paths
           make edit_render
 
       - name: Upload Completed Movie
