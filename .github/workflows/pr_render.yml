@@ -28,10 +28,10 @@ jobs:
           echo "Creating inital buffer frames"
           make scene_render
 
-      - name: Create Raw (cool) Render from Scene
-        run: |
-          echo "Creating inital buffer frames"
-          make cool_scene_render
+      # - name: Create Raw (cool) Render from Scene
+      #   run: |
+      #     echo "Creating inital buffer frames"
+      #     make cool_scene_render
 
       - name: Upload Buffer Images as Artifacts
         uses: actions/upload-artifact@v1
