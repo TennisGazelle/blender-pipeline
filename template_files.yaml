@@ -1,0 +1,4 @@
+- Makefile
+- blender/scene.blend
+- scripts/render.py
+- config.yaml
