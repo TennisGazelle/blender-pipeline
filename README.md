@@ -80,6 +80,8 @@ A video file will be found in imgs/out/ with post processing.
  - [**Amber Wilkie - FreeCodeCamp**](https://www.freecodecamp.org/news/how-to-use-github-actions-to-call-webhooks/) - Calling webhooks from Github Actions.
  - Stack Overflow/Stack Exchange
     - [**Pip for Blender's Installed Python**](https://blender.stackexchange.com/questions/56011/how-to-install-pip-for-blenders-bundled-python)
+ - [Stanford Shapenet Render](https://github.com/mvoelk/stanford-shapenet-renderer) - Object rendering suite for modelers
+   - Props to both Stanford researchers and Github user `mvoelk` for his update for Blender 2.9
 
 # Links I want to use
  - https://towardsdatascience.com/how-to-properly-use-the-gpu-within-a-docker-container-4c699c78c6d1
