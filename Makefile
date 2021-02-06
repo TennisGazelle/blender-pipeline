@@ -32,3 +32,6 @@ docker_build_test:
 	python3 scripts/render.py --stage SCENE
 	echo 'if that works, try with the other blender files with yaml'
 	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
+
+obj_render:
+	/Applications/Blender.app/Contents/MacOS/Blender -b --python scripts/obj-render.py -- --output_folder imgs/out/ blender/models/curve-skeleton-cube.obj

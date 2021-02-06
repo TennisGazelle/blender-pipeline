@@ -26,7 +26,29 @@ cool_scene:
   render_format: PNG
   blender_flags: ''
 
+models:
+  - cool_cube:
+    obj_file: 'blender/models/curve-skeleton-cube.obj'
+    render_output: 'imgs/out/models/'
+    scaling_factor: 1 # default (1)
+    remove_doubles: true # default (false)
+    edge_split: false # default (false)
+    depth_scale: 1.4 # default (1.4)
+    color_depth: 8 # default (8)
+    format: PNG # default PNG
+    resolution: 600 # is square; default (600)
+    rotation_iterations: 30 # default 6
+    include:
+      - color # default only one active
+      - depth
+      - normal
+      - albedo
+      - id
+
+
 file_output_format: '{bfile}_{stage}_####'
+model_output_format: '{objfile}_{angle}_{map}'
+
 docker:
   image: tennisgazelle/blender-pipeline:latest
   #render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -E {engine} -F {format} -t 8 {flags}

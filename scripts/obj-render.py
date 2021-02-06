@@ -194,7 +194,7 @@ bpy.data.objects['Sun'].rotation_euler[0] += 180
 
 # Place camera
 cam = scene.objects['Camera']
-cam.location = (0, 1, 0.6)
+cam.location = (0, 4, 2.4)
 cam.data.lens = 35
 cam.data.sensor_width = 32
 
