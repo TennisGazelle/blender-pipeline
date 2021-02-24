@@ -70,6 +70,7 @@ models:
     depth_scale: 1.4 # default (1.4)
     color_depth: 8 # default (8)
     format: PNG # default PNG
+    video: false # default (false); if true, format is ____ and rotation_iteration will be 5 sec rotation at 30 fps (150)
     resolution: 600 # is square; default (600)
     rotation_iterations: 30 # default 6
     include:
@@ -78,12 +79,13 @@ models:
       - normal
       - albedo
       - id
-model_output_format: '{objfile}_{angle}_{map}
+model_output_format: '{model}_{angle}_{map}
 ```
 
 > `model_output_format` arguments:
 > Arg | Desc
 > -- | --
+> `model` | name of model (ex. 'cool_cube')
 > `objfile` | Object file
 > `angle` | Angle of Camera [0-360)
 > `map` | which type of map it is (see `models.MODEL_NAME.include` options)

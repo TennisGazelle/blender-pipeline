@@ -1,6 +1,6 @@
 
 scene:
-  buffer_frames: 1-90
+  buffer_frames: 1
   force_update: false
   render_output: 'imgs/buffer/'
   engine: CYCLES # todo: figure out how to do EEVEE
@@ -36,6 +36,7 @@ models:
     depth_scale: 1.4 # default (1.4)
     color_depth: 8 # default (8)
     format: PNG # default PNG
+    video: false # default (false); if true, format is ____ and rotation_iteration will be 5 sec rotation at 30 fps (150)
     resolution: 600 # is square; default (600)
     rotation_iterations: 30 # default 6
     include:
@@ -47,13 +48,13 @@ models:
 
 
 file_output_format: '{bfile}_{stage}_####'
-model_output_format: '{objfile}_{angle}_{map}'
+model_output_format: '{model}_{angle}_{map}'
 
 docker:
   image: tennisgazelle/blender-pipeline:latest
   #render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -E {engine} -F {format} -t 8 {flags}
   render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs tennisgazelle/blender-pipeline:latest blender/{blend_file} -E {engine} -F {format} -t 8 {flags}
-  python_cmd: docker run --rm -v ${cwd}/blender/:/blender/ -v ${cwd}/scripts:/scripts -v ${cwd}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
+  # python_cmd: docker run --rm -v ${cwd}/blender/:/blender/ -v ${cwd}/scripts:/scripts -v ${cwd}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
   var_defaults:
     engine: CYCLES
     format: PNG

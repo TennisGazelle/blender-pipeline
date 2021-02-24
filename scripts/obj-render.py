@@ -7,6 +7,9 @@
 # blender --background --python mytest.py -- --views 10 /path/to/my.obj
 #
 
+## todo: abstract this out to some class type
+## todo: fix output namming from config template
+
 import argparse, sys, os, math, re
 import bpy
 from glob import glob
@@ -41,7 +44,7 @@ context = bpy.context
 scene = bpy.context.scene
 render = bpy.context.scene.render
 
-render.engine = 'BLENDER_EEVEE' # ('CYCLES', 'BLENDER_EEVEE', ...)
+render.engine = 'CYCLES' # ('CYCLES', 'BLENDER_EEVEE', ...)
 render.image_settings.color_mode = 'RGBA' # ('RGB', 'RGBA', ...)
 render.image_settings.color_depth = args.color_depth # ('8', '16')
 render.image_settings.file_format = args.format # ('PNG', 'OPEN_EXR', 'JPEG, ...)
