@@ -1,5 +1,5 @@
 # run this with a blender file
-# blender --background file.blend  --python get_path.py ...
+# blender --background file.blend  --python set_path.py ...
 
 import os
 import bpy

@@ -2,6 +2,13 @@
 
 Template pipeline for individual, small-team sized Blender project development.
 
+Build | Status
+ -- | -- 
+Sample PR Render Build |  ![sample pr workflow badge](https://github.com/TennisGazelle/blender-pipeline/workflows/.github/workflows/pr_render.yml/badge.svg)
+Sample Full Render Build | ![sample pr workflow badge](https://github.com/TennisGazelle/blender-pipeline/workflows/.github/workflows/render.yml/badge.svg)
+Docker Container Creation Build | ![sample pr workflow badge](https://github.com/TennisGazelle/blender-pipeline/workflows/.github/workflows/docker.yml/badge.svg)
+
+
 This uses Docker to run a small image of blender into a Github Action that has staged rendering.
 The Stages in rendering are tightly coupled with the animator's workflow in mind.
 
@@ -22,6 +29,7 @@ Needed to be installed/configured on your local machine.
 Copy this repo's contents to your projects workdir.
 Place your blender files into `blender/` and your image resource files into `imgs/resources`.  Be sure to relink everything.
 
+#### Terminology - "Stage"
 A stage is a specific rendering configuration, details in `config.yaml`, consisting of at least one blender file to be rendered.
 The information held in such a stage includes:
 
@@ -34,11 +42,55 @@ scene:
   blend_file: scene.blend       # the blend file in question
   render_format: PNG            # what format the output should be in
   blender_flags: ''             # parameters for blender to be used in the docker call
+file_output_format: '{bfile}_{stage}_####'
 ```
 
 > for `blender_flags:`, use flags found for blender arguments [found here](https://docs.blender.org/manual/en/latest/advanced/command_line/arguments.html)
 
+> `file_output_format` arguments:
+> Arg | Desc
+> -- | --
+> `bfile` | Blender file
+> `stage` | Name of stage
+> `####` | Frame number
+
 In this project, Stage `scene` refers to the blend file that contains the models/textures to be build, and stage `edit` includes the blender file with post processing.
+
+#### Terminology - "Model"
+A model is reference to an OBJ file outputted by a 3D modeler, void of static (image) and dynamic (procedural) texture information.  A model may be autorendered in turnstyle format based on configuration as defaulted below:
+
+```yaml
+models:
+  - cool_cube:
+    obj_file: 'blender/models/curve-skeleton-cube.obj'
+    render_output: 'imgs/out/models/'
+    scaling_factor: 1 # default (1)
+    remove_doubles: true # default (false)
+    edge_split: false # default (false)
+    depth_scale: 1.4 # default (1.4)
+    color_depth: 8 # default (8)
+    format: PNG # default PNG
+    video: false # default (false); if true, format is ____ and rotation_iteration will be 5 sec rotation at 30 fps (150)
+    resolution: 600 # is square; default (600)
+    rotation_iterations: 30 # default 6
+    include:
+      - color # default only one active
+      - depth
+      - normal
+      - albedo
+      - id
+model_output_format: '{model}_{angle}_{map}
+```
+
+> `model_output_format` arguments:
+> Arg | Desc
+> -- | --
+> `model` | name of model (ex. 'cool_cube')
+> `objfile` | Object file
+> `angle` | Angle of Camera [0-360)
+> `map` | which type of map it is (see `models.MODEL_NAME.include` options)
+
+In this project, `cool_cube` is the shape found in `blender/cool_scene.blend`. 
 
 ### Render
 0. (optional) Set up the Docker image locally (this will take some time).
@@ -73,13 +125,15 @@ Raw, individual frames will populate in imgs/buffer/ without post processing.
 A video file will be found in imgs/out/ with post processing.
 
 
-# Acknowledgements
+# Research and Bibliography
  - [**ikester/blender**](https://hub.docker.com/r/ikester/blender) - Dockerfile that has Blender in it
  - [**dolphinkiss/blender-python-docker**](https://github.com/dolphinkiss/blender-python-docker/blob/master/Dockerfile) - Similar to above; Dolphin Kiss's implementation is also simple and easy to understand.
  - [**Raymond Lo**](https://dis.co/blog/build-a-blender-docker-container-for-distributing-rendering/) - Article helping detail how to write one's own blender-based dockerfile and how to get dependencies in it.
  - [**Amber Wilkie - FreeCodeCamp**](https://www.freecodecamp.org/news/how-to-use-github-actions-to-call-webhooks/) - Calling webhooks from Github Actions.
  - Stack Overflow/Stack Exchange
     - [**Pip for Blender's Installed Python**](https://blender.stackexchange.com/questions/56011/how-to-install-pip-for-blenders-bundled-python)
+ - [`mvoelk`'s fork of Stanford Shapenet Render](https://github.com/mvoelk/stanford-shapenet-renderer) - Object rendering suite for modelers
+   - Props to both Stanford researchers and Github user `mvoelk` for his update for Blender 2.9
 
 # Links I want to use
  - https://towardsdatascience.com/how-to-properly-use-the-gpu-within-a-docker-container-4c699c78c6d1

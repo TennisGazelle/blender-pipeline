@@ -23,6 +23,11 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
 
+      - name: Python Dependency Installation
+        uses: py-actions/py-dependency-install@v2.1.0
+        with:
+          path: scripts/requirements.txt
+
       - name: Create Raw Render from Scene
         run: |
           echo "Creating inital buffer frames"
@@ -45,6 +50,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Python Dependency Installation
+        uses: py-actions/py-dependency-install@v2.1.0
+        with:
+          path: scripts/requirements.txt
 
       - name: Create Composite Render
         run: |
