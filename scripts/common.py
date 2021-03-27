@@ -1,4 +1,4 @@
-
+import json
 import yaml
 import yamale
 
@@ -39,5 +39,5 @@ def parse_frames(frames_as_string):
             frames.append(int(group))
     return frames    
 
-# config = init_config()
-# print(config)
+config = init_config()
+print(json.dumps(config, indent=3))
