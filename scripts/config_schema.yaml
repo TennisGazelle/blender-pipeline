@@ -1,7 +1,5 @@
-scene: include('render_stage')
 stages: map(include('render_stage'), key=str())
 models: map(include('model_stage'), key=str())
-# scene: include('stage')
 file_output_format: str()
 model_output_format: str()
 docker: include('docker_config')
