@@ -23,7 +23,7 @@ jobs:
       - name: Python Dependency Installation
         uses: py-actions/py-dependency-install@v2.1.0
         with:
-          path: scripts/requirement.txt
+          path: scripts/requirements.txt
 
       - name: Set the new relative paths
         run: make set_paths
