@@ -1,6 +1,6 @@
 stages:
   scene:
-    buffer_frames: 1, 2, 3-9, 11, 44
+    buffer_frames: 1-90
     force_update: false
     render_output: 'imgs/buffer/'
     engine: CYCLES # todo: figure out how to do EEVEE
