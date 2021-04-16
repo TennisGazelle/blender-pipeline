@@ -4,9 +4,9 @@ Template pipeline for individual, small-team sized Blender project development.
 
 Build | Status
  -- | -- 
-Sample PR Render Build |  ![sample pr workflow badge](https://github.com/TennisGazelle/blender-pipeline/workflows/.github/workflows/pr_render.yml/badge.svg)
-Sample Full Render Build | ![sample pr workflow badge](https://github.com/TennisGazelle/blender-pipeline/workflows/.github/workflows/render.yml/badge.svg)
-Docker Container Creation Build | ![sample pr workflow badge](https://github.com/TennisGazelle/blender-pipeline/workflows/.github/workflows/docker.yml/badge.svg)
+Sample PR Render Build |  [![PR Render](https://github.com/TennisGazelle/blender-pipeline/actions/workflows/pr_render.yml/badge.svg)](https://github.com/TennisGazelle/blender-pipeline/actions/workflows/pr_render.yml)
+Sample Full Render Build | [![Full Render](https://github.com/TennisGazelle/blender-pipeline/actions/workflows/render.yml/badge.svg)](https://github.com/TennisGazelle/blender-pipeline/actions/workflows/render.yml)
+Docker Container Creation Build | [![Docker Image Publishing](https://github.com/TennisGazelle/blender-pipeline/actions/workflows/docker.yml/badge.svg)](https://github.com/TennisGazelle/blender-pipeline/actions/workflows/docker.yml)
 
 
 This uses Docker to run a small image of blender into a Github Action that has staged rendering.
