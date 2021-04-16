@@ -12,6 +12,8 @@ Docker Container Creation Build | [![Docker Image Publishing](https://github.com
 This uses Docker to run a small image of blender into a Github Action that has staged rendering.
 The Stages in rendering are tightly coupled with the animator's workflow in mind.
 
+**Docker Container:** https://hub.docker.com/r/tennisgazelle/blender-pipeline
+
 ![Diagram of Blender Pipeline](docs/blender-pipeline-flowchart.png)
 
 # Quick start
