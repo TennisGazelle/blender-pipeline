@@ -57,6 +57,8 @@ jobs:
           path: scripts/requirements.txt
           
       - uses: actions/download-artifact@v2
+        with:
+          path: imgs/buffer/
 
       - name: Display structure of downloaded files
         run: ls -R
