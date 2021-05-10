@@ -60,8 +60,8 @@ jobs:
         with:
           path: imgs/buffer/
 
-      - name: Display structure of downloaded files
-        run: ls -R
+      - name: Copy Downloads to correct path
+        run: cp ./scene-buffer-files/* ./imgs/buffer/
 
       - name: Create Composite Render
         run: |
