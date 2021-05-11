@@ -9,6 +9,9 @@ scene_render: blender/scene.blend
 edit_render: blender/edit.blend imgs/buffer/scene_scene_0001.png imgs/buffer/scene_scene_0090.png
 	python3 scripts/render.py --stage EDIT
 
+model_render: blender/models/curve-skeleton-cube.obj
+	docker run --rm -v ${PWD}/dump:/tmp -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/scripts/common.py:/usr/local/blender/2.82/scripts/startup/common.py -v ${PWD}/config.yaml:/config.yaml -v ${PWD}/imgs/:/imgs tennisgazelle/blender-pipeline:latest --python scripts/model-render.py -- --output_folder imgs/out/ blender/models/curve-skeleton-cube.obj
+
 single_obj_render: blender/models/curve-skeleton-cube.obj
 	docker run --rm -v ${PWD}/dump:/tmp -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml -v ${PWD}/imgs/:/imgs tennisgazelle/blender-pipeline:latest --python scripts/obj-render.py -- --output_folder imgs/out/ blender/models/curve-skeleton-cube.obj
 

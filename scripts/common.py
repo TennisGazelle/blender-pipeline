@@ -41,3 +41,4 @@ def parse_frames(frames_as_string):
 
 config = init_config()
 print(json.dumps(config, indent=3))
+

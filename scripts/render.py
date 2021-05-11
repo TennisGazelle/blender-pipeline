@@ -45,7 +45,7 @@ def render_animation(render_cmd):
 ## start here:
 import argparse
 
-parser = argparse.ArgumentParser(description='Specify which frames to render')
+parser = argparse.ArgumentParser(description='Specify which stage to render')
 parser.add_argument('--stage', metavar='s', type=str, nargs='+',
                     help='which type of render to create')
 
