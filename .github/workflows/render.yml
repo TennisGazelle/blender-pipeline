@@ -61,7 +61,7 @@ jobs:
           path: imgs/buffer/
 
       - name: Copy Downloads to correct path
-        run: cp ./scene-buffer-files/* ./imgs/buffer/
+        run: cp ./imgs/buffer/scene-buffer-files/* ./imgs/buffer/
 
       - name: Create Composite Render
         run: |
