@@ -4,9 +4,8 @@ on:
   # allows for manual triggering from github
   workflow_dispatch:
   pull_request:
-    paths:
-      - 'blender/**'
-
+    paths-ignore:
+      - '.github/**'
 
 jobs:
   Model-Render:

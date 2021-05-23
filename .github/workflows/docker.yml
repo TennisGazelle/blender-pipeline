@@ -25,10 +25,10 @@ jobs:
 
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+        uses: battila7/get-version-action@v2
 
       - name: Build Docker image
-        run: docker build -t $REPO:latest -t $REPO:${GITHUB_SHA::8} -t $REPO:${{ steps.get_version.outputs.VERSION }} scripts/
+        run: docker build -t $REPO:latest -t $REPO:${GITHUB_SHA::8} -t $REPO:${{ steps.get_version.outputs.version }} scripts/
 
       - name: Publish Docker image
         run: docker push $REPO --all-tags
