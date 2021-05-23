@@ -272,9 +272,14 @@ class Renderer():
             self.cam_empty.rotation_euler[2] += math.radians(stepsize)
 
 
-modelRenderer = Renderer('CYCLES', 'RGBA', 8, 1.4, 'PNG', 600)
+
+model_settings = config['models']['_settings']
+modelRenderer = Renderer(model_settings['engine'], model_settings['color_mode'], model_settings['color_depth'], model_settings['depth_scale'], model_settings['file_format'], model_settings['resolution'])
 
 for model in config['models']:
+    if model[0] == '_':
+        continue
+
     print("rendering model name: ", model)
     modelRenderer.setupObjInScene(config['models'][model]['obj_file'], model)
     modelRenderer.setScale(config['models'][model]['scaling_factor'])
@@ -283,7 +288,7 @@ for model in config['models']:
         modelRenderer.removeDoubles()
 
     if config['models'][model]['edge_split']:
-        modelRenderer.handleEdgeSplits(1.32645)
+        modelRenderer.handleEdgeSplits(config['models'][model]['edge_split_angle'])
 
     print(config['models'][model]['include'])
 

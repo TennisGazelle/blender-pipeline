@@ -37,8 +37,9 @@ def parse_frames(frames_as_string):
                 frames.append(int(thisFrame))
         else:
             frames.append(int(group))
-    return frames    
+    return frames
 
+# just some default config validation
 config = init_config()
 print(json.dumps(config, indent=3))
 

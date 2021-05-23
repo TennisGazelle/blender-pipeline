@@ -1,5 +1,5 @@
 stages: map(include('render_stage'), key=str())
-models: map(include('model_stage'), key=str())
+models: map(include('model_stage'), include('model_settings'))
 file_output_format: str()
 model_output_format: str()
 docker: include('docker_config')
@@ -20,13 +20,19 @@ model_stage:
   scaling_factor: int(required=False)
   remove_doubles: bool(required=False)
   edge_split: bool(required=False)
+  edge_split_angle: num(required=False)
   depth_scale: num(required=False)
-  color_depth: int(required=False)
-  format: enum('PNG', 'JPEG', required=False)
   video: bool(required=False)
-  resolution: int(required=False)
   rotation_iterations: int(required=False)
   include: list(enum('color', 'depth', 'normal', 'albedo', 'id'), min=1)
+
+model_settings:
+  engine: enum('CYCLES', 'EEVEE')
+  color_mode: str()
+  color_depth: int()
+  depth_scale: num()
+  file_format: enum('PNG', 'JPEG', required=False)
+  resolution: int()
     
 docker_config:
   image: str()
