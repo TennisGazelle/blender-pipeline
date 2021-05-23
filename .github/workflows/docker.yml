@@ -23,8 +23,12 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASS }}
 
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
       - name: Build Docker image
-        run: docker build -t $REPO:latest -t $REPO:${GITHUB_SHA::8} -t $REPO:${GITHUB_REF#refs/tags/} scripts/
+        run: docker build -t $REPO:latest -t $REPO:${GITHUB_SHA::8} -t $REPO:${{ steps.get_version.outputs.VERSION }} scripts/
 
       - name: Publish Docker image
         run: docker push $REPO --all-tags
