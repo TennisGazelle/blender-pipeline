@@ -205,6 +205,7 @@ cam_constraint = cam.constraints.new(type='TRACK_TO')
 cam_constraint.track_axis = 'TRACK_NEGATIVE_Z'
 cam_constraint.up_axis = 'UP_Y'
 
+# Setup empty for camera to follow
 cam_empty = bpy.data.objects.new("Empty", None)
 cam_empty.location = (0, 0, 0)
 cam.parent = cam_empty
@@ -213,12 +214,13 @@ scene.collection.objects.link(cam_empty)
 context.view_layer.objects.active = cam_empty
 cam_constraint.target = cam_empty
 
+# calc rotation and num of frames
 stepsize = 360.0 / args.views
 rotation_mode = 'XYZ'
 
+# Actually Render
 model_identifier = os.path.split(os.path.split(args.obj)[0])[1]
 fp = os.path.join(os.path.abspath(args.output_folder), model_identifier, model_identifier)
-
 for i in range(0, args.views):
     print("Rotation {}, {}".format((stepsize * i), math.radians(stepsize * i)))
 

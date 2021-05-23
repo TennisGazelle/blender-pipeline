@@ -136,7 +136,11 @@ A video file will be found in imgs/out/ with post processing.
     - [**Pip for Blender's Installed Python**](https://blender.stackexchange.com/questions/56011/how-to-install-pip-for-blenders-bundled-python)
  - [`mvoelk`'s fork of Stanford Shapenet Render](https://github.com/mvoelk/stanford-shapenet-renderer) - Object rendering suite for modelers
    - Props to both Stanford researchers and Github user `mvoelk` for his update for Blender 2.9
+   - For Help: https://blender.stackexchange.com/questions/43346/how-do-you-set-the-current-image-as-far-as-bpy-is-concerned
+   - Blender docs: 
+     - https://docs.blender.org/api/current/bpy.data.html
+     - https://docs.blender.org/manual/en/latest/advanced/command_line/arguments.html
 
 # Links I want to use
  - https://towardsdatascience.com/how-to-properly-use-the-gpu-within-a-docker-container-4c699c78c6d1
- 
+ - https://tabreturn.github.io/code/blender/python/2020/11/01/a_quick_intro_to_blender_creative_coding-part_3_of_3.html
