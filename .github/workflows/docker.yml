@@ -27,5 +27,5 @@ jobs:
         run: docker build -t $REPO:latest -t $REPO:${GITHUB_SHA::8} scripts/
 
       - name: Publish Docker image
-        run: docker push $REPO
+        run: docker push $REPO --all-tags
 
