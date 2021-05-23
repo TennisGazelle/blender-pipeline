@@ -18,15 +18,22 @@ stages:
     blender_flags: '-a' # include this to render as a video
 
 models:
+  # engine: CYCLES # todo, add this into the schema
+  # color_mode: 'RGBA',
+  # color_depth: 8,
+  # depth_scale: 1.4,
+  # file_format: 'PNG',
+  # resolution: 600,
   cool_cube:
     obj_file: 'blender/models/curve-skeleton-cube.obj'
     render_output: 'imgs/out/models/'
     scaling_factor: 1 # default (1)
     remove_doubles: true # default (false)
     edge_split: false # default (false)
-    depth_scale: 1.4 # default (1.4)
+    # edge_split_angle: # todo alter schema, add this as double
+    depth_scale: 1.4 # default (1.4) # todo, make this as optional and overrides global
     color_depth: 8 # default (8)
-    format: PNG # default PNG
+    format: PNG # default PNG # todo, make this an optional override
     video: false # default (false); if true, format is ____ and rotation_iteration will be 5 sec rotation at 30 fps (150)
     resolution: 600 # is square; default (600)
     rotation_iterations: 30 # default 6
@@ -41,6 +48,7 @@ models:
 file_output_format: '{bfile}_{stage}_####'
 model_output_format: '{model}_{angle}_{map}'
 
+# experimental below, do not alter
 docker:
   image: tennisgazelle/blender-pipeline:latest
   #render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -E {engine} -F {format} -t 8 {flags}

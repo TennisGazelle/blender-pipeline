@@ -11,7 +11,7 @@ import logging
 import math
 from glob import glob
 
-os.listdir('/usr/local')
+os.listdir('.')
 
 from common import init_config
 
@@ -83,7 +83,6 @@ class Renderer():
             self.links.new(self.render_layers.outputs['Depth'], self.map.inputs[0])
             self.links.new(self.map.outputs[0], self.depth_file_output.inputs[0])
 
-    
     def setupNormalMapRender(self):
         logging.info("Setting up Normal Map Nodes")
         # Create normal output nodes
@@ -148,7 +147,7 @@ class Renderer():
             self.links.new(self.render_layers.outputs['IndexOB'], self.divide_node.inputs[0])
             self.links.new(self.divide_node.outputs[0], self.id_file_output.inputs[0])
 
-    def setupObjInScene(self, filename):
+    def setupObjInScene(self, filename, modelname):
         logging.info("Importing Obj in Scene")
         # Delete default cube
         self.context.active_object.select_set(True)
@@ -160,6 +159,7 @@ class Renderer():
         bpy.ops.import_scene.obj(filepath=filename)
 
         self.obj = bpy.context.selected_objects[0]
+        self.obj.name = modelname
         self.context.view_layer.objects.active = self.obj
 
         # Possibly disable specular shading
@@ -234,7 +234,7 @@ class Renderer():
         self.context.view_layer.objects.active = self.cam_empty
         self.cam_constraint.target = self.cam_empty
 
-    def doRender(self, views, output_folder):
+    def doRender(self, views, output_folder, output_format):
         # calc rotation and num of frames
         stepsize = 360.0 / views
         rotation_mode = 'XYZ'
@@ -242,56 +242,66 @@ class Renderer():
         if 'filename' not in self.args.keys():
             logging.error("Filename not loaded before render call")
 
-
-        model_identifier = os.path.split(os.path.split(self.args['filename'])[0])[1]
-        fp = os.path.join(os.path.abspath(output_folder), model_identifier, model_identifier)
         for i in range(0, views):
-            print("Rotation {}, {}".format((stepsize * i), math.radians(stepsize * i)))
+            print("Step {} of {}, Rotation {}, {}".format(i, views, (stepsize * i), math.radians(stepsize * i)))
 
-            render_file_path = self.args['filename'] + '_r_{0:03d}'.format(int(i * stepsize))
-            print('render_file_path', render_file_path)
-
-            self.scene.render.filepath = render_file_path
-            if self.depth_file_output:
-                self.depth_file_output.file_slots[0].path = render_file_path + "_depth"
-
-            if self.normal_file_output:
-                self.normal_file_output.file_slots[0].path = render_file_path + "_normal"
-
-            if self.alpha_albedo:
-                self.albedo_file_output.file_slots[0].path = render_file_path + "_albedo"
-
-            if self.id_file_output:
-                self.id_file_output.file_slots[0].path = render_file_path + "_id"
+            thisFilename = output_format.replace('{model}', self.obj.name).replace('{angle}', '{0:03d}'.format(int(i * stepsize)))
+            render_file_path = os.path.join(os.path.abspath(output_folder), thisFilename)
 
             print('render_file_path', render_file_path)
+
+            self.scene.render.filepath = render_file_path.replace('{map}', 'color')
+            if hasattr(self, 'depth_file_output'):
+                self.depth_file_output.file_slots[0].path = render_file_path.replace('{map}', 'depth')
+
+            if hasattr(self, 'normal_file_output'):
+                self.normal_file_output.file_slots[0].path = render_file_path.replace('{map}', 'normal')
+
+            if hasattr(self, 'alpha_albedo'):
+                self.albedo_file_output.file_slots[0].path = render_file_path.replace('{map}', 'albedo')
+
+            if hasattr(self, 'id_file_output'):
+                self.id_file_output.file_slots[0].path = render_file_path.replace('{map}', 'id')
 
             bpy.ops.render.render(write_still=True)  # render still
 
-            # remove frame number from file names
-            for n in glob(render_file_path+'_*'):
-                os.rename(n, re.sub(r'(\d+)\.([^\.]+)$', r'.\2', n))
+            # # remove frame number from file names
+            # for n in glob(render_file_path+'_*'):
+            #     os.rename(n, re.sub(r'(\d+)\.([^\.]+)$', r'.\2', n))
 
             self.cam_empty.rotation_euler[2] += math.radians(stepsize)
 
 
-# for modelName, model in config['models']:
-#     print("doing model name", modelName, "and model", model)
+modelRenderer = Renderer('CYCLES', 'RGBA', 8, 1.4, 'PNG', 600)
 
+for model in config['models']:
+    print("rendering model name: ", model)
+    modelRenderer.setupObjInScene(config['models'][model]['obj_file'], model)
+    modelRenderer.setScale(config['models'][model]['scaling_factor'])
 
+    if config['models'][model]['remove_doubles']:
+        modelRenderer.removeDoubles()
 
+    if config['models'][model]['edge_split']:
+        modelRenderer.handleEdgeSplits(1.32645)
 
-# modelRenderer = Renderer('CYCLES', 'RGBA', 8, 1.4, 'PNG', 600)
+    print(config['models'][model]['include'])
 
-# modelRenderer.setupDepthMapRender()
-# modelRenderer.setupNormalMapRender()
-# modelRenderer.setupAlbedoMapRender()
-# modelRenderer.setupIdMapRender()
+    if 'color' not in config['models'][model]['include']:
+        print('Color map not in includes but will still be rendered by default, you cannot prevent this.')
 
-# modelRenderer.setupObjInScene('blender/models/curve-skeleton-cube.obj')
-# modelRenderer.setScale(1.0)
-# modelRenderer.removeDoubles()
-# modelRenderer.handleEdgeSplits(1.32645)
-# modelRenderer.setupLightsAndCamera()
-# modelRenderer.doRender(10, 'imgs/out/models/debug')
+    if 'depth' in config['models'][model]['include']:
+        modelRenderer.setupDepthMapRender()
+
+    if 'normal' in config['models'][model]['include']:
+        modelRenderer.setupNormalMapRender()
+
+    if 'albedo' in config['models'][model]['include']:
+        modelRenderer.setupAlbedoMapRender()
+
+    if 'id' in config['models'][model]['include']:
+        modelRenderer.setupIdMapRender()
+
+    modelRenderer.setupLightsAndCamera()
+    modelRenderer.doRender(config['models'][model]['rotation_iterations'], config['models'][model]['render_output'], config['model_output_format'])
 

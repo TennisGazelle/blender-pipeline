@@ -28,7 +28,7 @@ RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && /usr/local/blender/${BLENDER_MAJOR}/python/bin/python3.7m -m pip install pyyaml yamale --user
 
 # Get the config common library near the blender executable
-COPY common.py /usr/local/blender/${BLENDER_MAJOR}/scripts/startup/
+COPY common.py /usr/local/blender/${BLENDER_MAJOR}/python/lib/python3.7/
 
 VOLUME /media
 WORKDIR /
