@@ -36,7 +36,7 @@ set_paths:
 	docker run --rm -v ${PWD}/blender/:/blender/ -v ${PWD}/scripts:/scripts -v ${PWD}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/edit.blend --python scripts/set_path.py
 
 clean:
-	rm -rf out/
+	rm -rf out/ imgs/out/models/debug/
 
 clean_buffers:
 	rm -rf buffer/
