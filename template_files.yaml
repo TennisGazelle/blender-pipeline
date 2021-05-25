@@ -1,0 +1,5 @@
+ - blender/scene.blend
+ - blender/edit.blend
+ - scripts/render.py
+ - config.yaml
+ - Makefile
