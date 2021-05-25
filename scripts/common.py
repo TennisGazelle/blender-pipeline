@@ -21,6 +21,12 @@ def init_config():
     for stage in config['stages']:
         config['stages'][stage]['buffer_frames'] = parse_frames(config['stages'][stage]['buffer_frames'])
 
+    for model in config['models']:
+        if model[0] != '_':
+            if 'include' not in config['models'][model].keys():
+                # add the default in case this list is empty
+                config['models'][model]['include'] = []
+
     return config
 
 def parse_frames(frames_as_string):
