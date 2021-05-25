@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import os 
+import errno
 import subprocess
 import yaml
 import json
@@ -8,12 +9,22 @@ from common import init_config
 
 config = init_config()
 
+def makeLogDir(filename):
+    if not os.path.exists(os.path.dirname(filename)):
+        try:
+            os.makedirs(os.path.dirname(filename))
+        except OSError as exc: # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
 def render_frames(frames, render_cmd):
     for frame in frames:
         cmd = render_cmd + " -f {0}".format(frame)
         print(cmd.split())
 
-        with open ('logs/render-frame-{}.log'.format(frame), 'w+') as f:
+        filename = 'logs/render-frame-{}.log'.format(frame)
+        makeLogDir(filename)
+        with open (filename, 'w+') as f:
             process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
 
             while True:
