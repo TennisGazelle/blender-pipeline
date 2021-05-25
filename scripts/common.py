@@ -19,7 +19,14 @@ def init_config():
         config = yaml.load(config_file)#, Loader=yaml.FullLoader) # fix this
 
     for stage in config['stages']:
-        config['stages'][stage]['buffer_frames'] = parse_frames(config['stages'][stage]['buffer_frames'])
+        if stage[0] != '_':
+            config['stages'][stage]['buffer_frames'] = parse_frames(config['stages'][stage]['buffer_frames'])
+
+    for model in config['models']:
+        if model[0] != '_':
+            if 'include' not in config['models'][model].keys():
+                # add the default in case this list is empty
+                config['models'][model]['include'] = []
 
     return config
 
@@ -41,5 +48,4 @@ def parse_frames(frames_as_string):
 
 # just some default config validation
 config = init_config()
-print(json.dumps(config, indent=3))
 

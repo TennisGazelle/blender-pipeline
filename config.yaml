@@ -1,4 +1,17 @@
 stages:
+  _settings:
+    resources: 'imgs/resources/'
+    file_output_format: '{bfile}_####'
+
+  cool_scene:
+    buffer_frames: 1-90
+    force_update: false
+    render_output: 'imgs/buffer/'
+    engine: CYCLES # todo: figure out how to do EEVEE
+    blend_file: cool_scene.blend
+    render_format: PNG
+    blender_flags: ''
+
   scene:
     buffer_frames: 1-90
     force_update: false
@@ -25,6 +38,7 @@ models:
     depth_scale: 1.4
     file_format: 'PNG'
     resolution: 600
+
   cool_cube:
     obj_file: 'blender/models/curve-skeleton-cube.obj'
     render_output: 'imgs/out/models/'
@@ -48,11 +62,6 @@ model_output_format: '{model}_{angle}_{map}'
 # experimental below, do not alter
 docker:
   image: tennisgazelle/blender-pipeline-gpu:latest
-  #render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs ikester/blender blender/{blend_file} -o {output_location} -E {engine} -F {format} -t 8 {flags}
-  render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs tennisgazelle/blender-pipeline-gpu:latest blender/{blend_file} -E {engine} -F {format} -t 8 {flags}
+  render_cmd: docker run --rm -v {cwd}/blender/:/blender/ -v {cwd}/imgs:/imgs {image} blender/{blend_file} -E {engine} -F {format} -t 8 {flags}
   # python_cmd: docker run --rm -v ${cwd}/blender/:/blender/ -v ${cwd}/scripts:/scripts -v ${cwd}/config.yaml:/config.yaml tennisgazelle/blender-pipeline:latest blender/scene.blend --python scripts/get_path.py
-  var_defaults:
-    engine: CYCLES
-    format: PNG
-    output_location: imgs/buffer/
 
