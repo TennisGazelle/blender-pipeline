@@ -13,7 +13,7 @@ def render_frames(frames, render_cmd):
         cmd = render_cmd + " -f {0}".format(frame)
         print(cmd.split())
 
-        with open ('logs/render-frame-{}.log'.format(frame), 'w') as f:
+        with open ('logs/render-frame-{}.log'.format(frame), 'w+') as f:
             process = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE)
 
             while True:
