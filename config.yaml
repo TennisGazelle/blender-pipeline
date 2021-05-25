@@ -1,4 +1,8 @@
 stages:
+  _settings:
+    resources: 'imgs/resources/'
+    file_output_format: '{bfile}_####'
+
   cool_scene:
     buffer_frames: 1-90
     force_update: false
@@ -34,6 +38,7 @@ models:
     depth_scale: 1.4
     file_format: 'PNG'
     resolution: 600
+
   cool_cube:
     obj_file: 'blender/models/curve-skeleton-cube.obj'
     render_output: 'imgs/out/models/'

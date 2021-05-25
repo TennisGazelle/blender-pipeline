@@ -1,4 +1,4 @@
-stages: map(include('render_stage'), key=str())
+stages: map(include('render_stage'), include('stage_settings'))
 models: map(include('model_stage'), include('model_settings'))
 file_output_format: str()
 model_output_format: str()
@@ -13,6 +13,10 @@ render_stage:
   blend_file: str()
   render_format: enum('PNG', 'AVIRAW', required=False)
   blender_flags: str(required=False)
+
+stage_settings:
+  resources: str()
+  file_output_format: str()
 
 model_stage:
   obj_file: str()

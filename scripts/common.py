@@ -19,7 +19,8 @@ def init_config():
         config = yaml.load(config_file)#, Loader=yaml.FullLoader) # fix this
 
     for stage in config['stages']:
-        config['stages'][stage]['buffer_frames'] = parse_frames(config['stages'][stage]['buffer_frames'])
+        if stage[0] != '_':
+            config['stages'][stage]['buffer_frames'] = parse_frames(config['stages'][stage]['buffer_frames'])
 
     for model in config['models']:
         if model[0] != '_':
