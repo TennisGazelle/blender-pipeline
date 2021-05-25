@@ -11,8 +11,6 @@ import logging
 import math
 from glob import glob
 
-os.listdir('.')
-
 from common import init_config
 
 config = init_config()

@@ -72,6 +72,7 @@ for thisStage in args.stage:
         cwd             = os.getcwd(),
         blend_file      = config['stages'][stage]['blend_file'],
         output_location = config['stages'][stage]['render_output'],
+        image           = config['docker']['image'],
         engine          = config['stages'][stage]['engine'],
         format          = config['stages'][stage]['render_format'],
         flags           = config['stages'][stage]['blender_flags']
