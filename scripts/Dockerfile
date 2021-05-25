@@ -22,6 +22,7 @@ RUN curl -L ${BLENDER_URL} | tar -xJ -C /usr/local/ \
     && mv /usr/local/blender-${BLENDER_VERSION}-linux64 /usr/local/blender
 
 # run the pip install for the bundled python
+# todo move the copy common to earlier, and add requirements.txt and change line 29
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
     && ls /usr/local/blender/${BLENDER_MAJOR}/python/lib \
     && /usr/local/blender/${BLENDER_MAJOR}/python/bin/python3.7m get-pip.py \

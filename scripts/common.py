@@ -48,5 +48,4 @@ def parse_frames(frames_as_string):
 
 # just some default config validation
 config = init_config()
-print(json.dumps(config, indent=3))
 

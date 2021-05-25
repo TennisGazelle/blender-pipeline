@@ -13,7 +13,6 @@ bfile = bpy.data.filepath.split('/')[-1].split('.')[0]
 path_header = '//../'
 
 def main():
-    print('config: ', json.dumps(config, indent=3))
     print('Initial Output Filepath: {}'.format(scene.render.filepath))
 
     if bpy.data.images:
@@ -24,8 +23,6 @@ def main():
                 continue
 
             print('image: ', image.filepath, '---- {}'.format('OK' if '//../imgs/' in image.filepath else 'NOT OK'))
-
-    print('\nchanging...\n')
 
     # change the filepath to the new format
     stage_settings = config['stages']['_settings']
@@ -41,7 +38,7 @@ def main():
             if not image.filepath.strip():
                 continue
 
-            if '//../imgs/resources' not in image.filepath:
+            if '//../imgs/' not in image.filepath:
                 print('updating, improper - ', image.filepath)
 
                 # relative_to_absolute_path = image.filepath.replace('//', bpy.data.filepath).replace(bfile.lstrip('/') + '.blend', '')
