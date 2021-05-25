@@ -41,16 +41,16 @@ def main():
             if '//../imgs/' not in image.filepath:
                 print('updating, improper - ', image.filepath)
 
-                # relative_to_absolute_path = image.filepath.replace('//', bpy.data.filepath).replace(bfile.lstrip('/') + '.blend', '')
-                # print('looking for', relative_to_absolute_path)
-                # if not os.path.isfile(relative_to_absolute_path):
-                #     print('image: {} doesn\'t exist, updating and looking'.format(relative_to_absolute_path))
-                #     image_name = image.filepath.split('/')[0]
-                #     found_image_path = find(image_name, 'imgs/resources')
-                #     if found_image_path is None:
-                #         print('image: {} not found in `imgs/resources`'.format(image_name))
-                #     else:
-                #         image.filepath = found_image_path
+                relative_to_absolute_path = image.filepath.replace('//', bpy.data.filepath).replace(bfile.lstrip('/') + '.blend', '')
+                print('looking for', relative_to_absolute_path)
+                if not os.path.isfile(relative_to_absolute_path):
+                    print('image: {} doesn\'t exist, updating and looking'.format(relative_to_absolute_path))
+                    image_name = image.filepath.split('/')[0]
+                    found_image_path = find(image_name, 'imgs/resources')
+                    if found_image_path is None:
+                        print('image: {} not found in `imgs/resources`'.format(image_name))
+                    else:
+                        image.filepath = found_image_path
 
 
     #save the file and quit
