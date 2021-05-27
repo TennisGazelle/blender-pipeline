@@ -8,7 +8,7 @@
 #     && apt-mark hold libcudnn8 && \
 #     rm -rf /var/lib/apt/lists/*
 
-FROM nvidia/cuda:10.0-devel-ubuntu18.04
+FROM nvidia/cuda:11.3.0-base-ubuntu20.04
 
 LABEL authors="Daniel Lopez <daniellopez@nevada.unr.edu>"
 
