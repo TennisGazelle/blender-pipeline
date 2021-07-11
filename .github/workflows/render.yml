@@ -48,7 +48,8 @@ jobs:
           path: imgs/out/models/
 
   Scene-Render:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
 
@@ -76,7 +77,8 @@ jobs:
 
   Final-Render:
     needs: [Scene-Render, Model-Render]
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
 
