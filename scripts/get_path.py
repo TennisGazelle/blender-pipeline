@@ -4,22 +4,21 @@
 import bpy
 import yaml
 import json
+from common import init_config
 
-def get_config_for_file():
-    blend_file = bpy.data.filepath
-    for stage in config.keys():
-        if isinstance(config[stage], dict):
-            if config[stage]['blend_file'] in blend_file:
-                return config[stage], stage
-    
-    return None
-
-
-with open('config.yaml', 'r') as config_file:
-    config = yaml.load(config_file)#, Loader=yaml.FullLoader) # fix this
-
+config = init_config()
 scene = bpy.context.scene
-file_config, stage = get_config_for_file()
 
-print('config: ', json.dumps(config, indent=3))
-print('Initial Output Filepath: {}'.format(scene.render.filepath))
+def main():
+    print('Initial Output Filepath: {}'.format(scene.render.filepath))
+
+    if bpy.data.images:
+        for image in bpy.data.images:
+            # filter out null strings
+            if not image.filepath.strip():
+                continue
+
+            print('image: ', image.filepath, '---- {}'.format('OK' if '//../imgs/' in image.filepath else 'NOT OK'))
+
+
+main()

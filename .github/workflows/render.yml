@@ -5,24 +5,69 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
+    paths:
+      - 'blender/**'
+      - 'scripts/**'
+      - 'imgs/**'
 
 
 jobs:
+  Model-Render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Python Dependency Installation
+        uses: py-actions/py-dependency-install@v2.1.0
+        with:
+          path: scripts/requirements.txt
+
+      - name: Set the new relative paths
+        run: make set_paths
+
+      - name: Create Model Render from Turnstile
+        run: |
+          echo "Creating Turnstile Animation"
+          make model_render
+
+      # - name: Create Raw (cool) Render from Scene
+      #   run: |
+      #     echo "Creating inital buffer frames"
+      #     make cool_scene_render
+
+      - name: Upload Model Images as Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: models
+          path: imgs/out/models/
+
   Scene-Render:
     #runs-on: ubuntu-latest
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
 
-      - name: Building Docker image
-        run: docker build -t blender-pipeline:latest scripts/
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.DOCKER_USER }}
+#           password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Python Dependency Installation
+        uses: py-actions/py-dependency-install@v2.1.0
+        with:
+          path: scripts/requirements.txt
 
       - name: Create Raw Render from Scene
         run: |
           echo "Creating inital buffer frames"
-          # make scene_render
-          make set_paths
-          scripts/render.py --stage=scene
+          make scene_render
 
       - name: Upload Buffer Images as Artifacts
         uses: actions/upload-artifact@v1
@@ -31,25 +76,37 @@ jobs:
           path: imgs/buffer/
 
   Final-Render:
-    needs: Scene-Render
+    needs: [Scene-Render, Model-Render]
     #runs-on: ubuntu-latest
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
 
-      - name: Building Docker image
-        run: docker build -t blender-pipeline:latest scripts/
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.DOCKER_USER }}
+#           password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Python Dependency Installation
+        uses: py-actions/py-dependency-install@v2.1.0
+        with:
+          path: scripts/requirements.txt
+          
+      - uses: actions/download-artifact@v2
+        with:
+          path: imgs/buffer/
+
+      - name: Copy Downloads to correct path
+        run: cp ./imgs/buffer/scene-buffer-files/* ./imgs/buffer/
 
       - name: Create Composite Render
         run: |
           echo "Creating composited avi"
-          make set_paths
-          scripts/render.py --stage=edit
+          make edit_render
 
       - name: Upload Completed Movie
         uses: actions/upload-artifact@v1
         with:
           name: output-render-file
-          path: |
-            imgs/out/
-            imgs/buffer/
+          path: imgs/out/

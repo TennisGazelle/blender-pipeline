@@ -1,0 +1,35 @@
+name: Docker Image Publishing
+
+on:
+  # allows for manual triggering from github
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'scripts/Dockerfile'
+
+jobs:
+  docker:
+    name: Publish Image to Docker Hub
+    runs-on: ubuntu-18.04
+    env:
+      REPO: ${{ secrets.DOCKER_REPO }}
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Get the version
+        id: get_version
+        uses: battila7/get-version-action@v2
+
+      - name: Build Docker image
+        run: docker build -t $REPO:latest -t $REPO:${GITHUB_SHA::8} -t $REPO:${{ steps.get_version.outputs.version }} scripts/
+
+      - name: Publish Docker image
+        run: docker push $REPO --all-tags
+

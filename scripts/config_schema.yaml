@@ -1,0 +1,44 @@
+stages: map(include('render_stage'), include('stage_settings'))
+models: map(include('model_stage'), include('model_settings'))
+file_output_format: str()
+model_output_format: str()
+docker: include('docker_config')
+
+---  
+render_stage:
+  buffer_frames: any(int(), str())
+  force_update: bool(required=False)
+  render_output: str()
+  engine: enum('CYCLES', 'EEVEE')
+  blend_file: str()
+  render_format: enum('PNG', 'AVIRAW', required=False)
+  blender_flags: str(required=False)
+
+stage_settings:
+  resources: str()
+  file_output_format: str()
+
+model_stage:
+  obj_file: str()
+  render_output: str()
+  scaling_factor: int(required=False)
+  remove_doubles: bool(required=False)
+  edge_split: bool(required=False)
+  edge_split_angle: num(required=False)
+  depth_scale: num(required=False)
+  video: bool(required=False)
+  rotation_iterations: int(required=False)
+  include: list(enum('color', 'depth', 'normal', 'albedo', 'id'), min=1, required=False)
+
+model_settings:
+  engine: enum('CYCLES', 'EEVEE')
+  color_mode: str()
+  color_depth: int()
+  depth_scale: num()
+  file_format: enum('PNG', 'JPEG', required=False)
+  resolution: int()
+    
+docker_config:
+  image: str()
+  render_cmd: str()
+
