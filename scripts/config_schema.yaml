@@ -41,4 +41,5 @@ model_settings:
 docker_config:
   image: str()
   render_cmd: str()
+  use_gpu: bool(required=False, default=True)
 
